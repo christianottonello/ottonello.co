@@ -93,7 +93,7 @@ ul.links {
 
 @media (max-width: 900px) {
   .page { grid-template-columns: 1fr; gap: 0; padding: 3rem 1.25rem 3rem; min-height: 0; align-items: start; }
-  .face { width: 150px; justify-self: start; margin: 0 0 1.6rem -4px; transition: none; }
+  .face { width: 72px; justify-self: start; margin: 0 0 2rem -2px; transition: none; order: -1; }
 }
 
 @media (prefers-reduced-motion: reduce) {
