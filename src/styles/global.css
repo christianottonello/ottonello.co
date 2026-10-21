@@ -124,7 +124,7 @@ ul.links {
   .polaroid { transition: opacity 0.18s ease; }
 }
 
-.otro { white-space: nowrap; }
+.otro { white-space: nowrap; margin-left: 0.12em; }
 .otro-mark {
   display: inline-block;
   width: 0.95em;
