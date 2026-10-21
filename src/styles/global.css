@@ -1,0 +1,107 @@
+@font-face {
+  font-family: "Newsreader";
+  src: url("/fonts/newsreader.woff2") format("woff2");
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Newsreader";
+  src: url("/fonts/newsreader-italic.woff2") format("woff2");
+  font-weight: 200 800;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  --ink: #15130f;
+  --paper: #fbfaf7;
+  --muted: #6e6a62;
+  --rule: #b8b2a6;
+  --dots: #9f9a90;
+  --measure: 30rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #ece9e2;
+    --paper: #15130f;
+    --muted: #9a958b;
+    --rule: #5c574f;
+    --dots: #6e6a62;
+  }
+}
+
+* { box-sizing: border-box; }
+
+html {
+  font-family: "Newsreader", Georgia, "Times New Roman", serif;
+  font-size: 21px;
+  line-height: 1.6;
+  color: var(--ink);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+}
+
+main {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 7rem 1.25rem 6rem;
+}
+
+.face {
+  display: block;
+  width: 80px;
+  height: auto;
+  margin: 0 0 2.2rem -3px;
+  color: var(--ink);
+}
+
+p {
+  margin: 0 0 1.25rem;
+  font-weight: 400;
+}
+
+p.lead {
+  font-size: 1.18rem;
+  line-height: 1.45;
+  font-weight: 430;
+}
+
+a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: var(--rule);
+  text-underline-offset: 0.16em;
+}
+a:hover, a:focus-visible { text-decoration-color: var(--ink); }
+a:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 2px; }
+
+.w {
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-decoration-color: var(--dots);
+  text-underline-offset: 0.18em;
+}
+
+ul.links {
+  list-style: none;
+  padding: 0;
+  margin: 2.2rem 0 0;
+  display: flex;
+  gap: 1.4rem;
+  font-size: 0.92rem;
+}
+
+@media (max-width: 600px) {
+  html { font-size: 19px; }
+  main { padding: 4.5rem 1.25rem 4rem; }
+  .face { width: 68px; }
+}
