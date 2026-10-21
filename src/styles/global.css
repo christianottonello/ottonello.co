@@ -15,16 +15,6 @@
   --measure: 34rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --ink: #ece9e2;
-    --paper: #15130f;
-    --muted: #9a958b;
-    --rule: #5c574f;
-    --dots: #6e6a62;
-  }
-}
-
 * { box-sizing: border-box; }
 
 html {
@@ -123,13 +113,24 @@ ul.links {
   box-shadow: 0 12px 32px rgba(20, 18, 14, 0.22);
   pointer-events: none;
   opacity: 0;
-  transform: translate(-50%, calc(-100% - 14px)) rotate(var(--tilt, -3deg)) scale(0.96);
+  transform: translate(-50%, calc(-100% - 12px)) scale(0.97);
   transition: opacity 0.18s ease, transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-.polaroid.on { opacity: 1; transform: translate(-50%, calc(-100% - 14px)) rotate(var(--tilt, -3deg)) scale(1); }
+.polaroid.on { opacity: 1; transform: translate(-50%, calc(-100% - 12px)) scale(1); }
 .polaroid img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; background: #eee; }
 
 
 @media (prefers-reduced-motion: reduce) {
   .polaroid { transition: opacity 0.18s ease; }
 }
+
+.otro { white-space: nowrap; }
+.otro-mark {
+  display: inline-block;
+  width: 0.95em;
+  height: 0.86em;
+  vertical-align: -0.08em;
+  margin-right: 0.22em;
+  color: #006657;
+}
+.mail.copied { color: var(--muted); text-decoration-color: transparent; }
