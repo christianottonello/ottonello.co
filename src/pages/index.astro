@@ -3,20 +3,22 @@ import Base from '../layouts/Base.astro';
 import Face from '../components/Face.astro';
 import OtroMark from '../components/OtroMark.astro';
 const sets = {
+  running: ['/img/running-1.webp', '/img/running-2.webp', '/img/running-3.webp', '/img/running-4.webp', '/img/running-5.webp', '/img/running-6.webp', '/img/running-7.webp'],
+  photos: ['/img/photos-1.webp', '/img/photos-2.webp', '/img/photos-3.webp', '/img/photos-4.webp', '/img/photos-5.webp', '/img/photos-6.webp', '/img/photos-7.webp', '/img/photos-8.webp'],
   bands: ['/img/bands-1.webp', '/img/bands-2.webp', '/img/bands-3.webp', '/img/bands-4.webp', '/img/bands-5.webp', '/img/bands-6.webp', '/img/bands-7.webp'],
 };
 ---
 <Base>
   <main class="page">
     <div>
-      <p class="lead">Hola, I'm Otto, a designer and creative director in Buenos Aires, Argentina. I run <a href="https://otrostudio.co" class="otro"><OtroMark />Otro</a>, an independent product studio for software companies.</p>
+      <p class="lead">Hola, I'm Otto, a designer and creative director in Buenos Aires, Argentina. I run <a href="https://otrostudio.co" class="otro" target="_blank" rel="noopener"><OtroMark />Otro</a>, an independent product studio for software companies.</p>
       <p>Previously, I was Head of Design at DEPT<sup>®</sup> in Latin America, where I went from being the only designer to leading a team of thirty across three countries, working with global brands and early-stage startups.</p>
       <p>I dig into problems before solving them, because understanding what's actually going on is what makes the answer feel obvious later.</p>
-      <p>When I'm not working, you'll find me running, seeing my <span class="w" data-set="bands">favorite bands</span> live, taking photos, or screenshotting more things than I'll ever look at again.</p>
+      <p>When I'm not working, you'll find me seeing my <span class="w" data-set="bands">favorite bands</span> live, <span class="w" data-set="running">running</span>, <span class="w" data-set="photos">shooting photos</span>, or screenshotting more things than I'll ever look at again.</p>
       <p>Whether you're building something or finding your way in design, I'm happy to help: <a href="mailto:christian@ottonello.co" class="mail" data-mail="christian@ottonello.co">christian@ottonello.co</a></p>
       <ul class="links">
-        <li><a href="https://twitter.com/ottonello">Twitter</a></li>
-        <li><a href="https://www.linkedin.com/in/christianottonello">LinkedIn</a></li>
+        <li><a href="https://twitter.com/ottonello" target="_blank" rel="noopener">Twitter</a></li>
+        <li><a href="https://www.linkedin.com/in/christianottonello" target="_blank" rel="noopener">LinkedIn</a></li>
       </ul>
     </div>
     <div class="face"><Face /></div>
@@ -57,6 +59,7 @@ const sets = {
   function start(word: HTMLElement) {
     const list = sets[word.dataset.set!];
     current = word.dataset.set!;
+    pol.dataset.set = current;
     place(word);
     setImg(list, idx);
     pol.classList.add('on');

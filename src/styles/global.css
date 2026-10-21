@@ -117,7 +117,9 @@ ul.links {
   transition: opacity 0.18s ease, transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .polaroid.on { opacity: 1; transform: translate(-50%, calc(-100% - 12px)) scale(1); }
-.polaroid img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; background: #eee; }
+.polaroid img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; background: #eee; }
+.polaroid[data-set="photos"] { width: 220px; }
+.polaroid[data-set="photos"] img { aspect-ratio: 3 / 2; }
 
 
 @media (prefers-reduced-motion: reduce) {
