@@ -1,6 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
 import Face from '../components/Face.astro';
+const sets = {
+  running: ['/img/running-1.webp', '/img/running-2.webp', '/img/running-3.webp'],
+  bands: ['/img/bands-1.webp', '/img/bands-2.webp', '/img/bands-3.webp', '/img/bands-4.webp', '/img/bands-5.webp', '/img/bands-6.webp', '/img/bands-7.webp'],
+  photos: ['/img/photos-1.webp', '/img/photos-2.webp', '/img/photos-3.webp'],
+  screens: ['/img/screens-1.webp', '/img/screens-2.webp', '/img/screens-3.webp'],
+};
 ---
 <Base>
   <main class="page">
@@ -8,8 +14,8 @@ import Face from '../components/Face.astro';
       <p class="lead">Hola, I'm Otto, a designer and creative director in Buenos Aires, Argentina. I run <a href="https://otrostudio.co">Otro</a>, an independent product studio for software companies.</p>
       <p>Previously, I was Head of Design at DEPT<sup>®</sup> in Latin America, where I went from being the only designer to leading a team of thirty across three countries, working with global brands and early-stage startups.</p>
       <p>I dig into problems before solving them, because understanding what's actually going on is what makes the answer feel obvious later.</p>
-      <p>When I'm not working, you'll find me <span class="w">running</span>, <span class="w">seeing my favorite bands live</span>, taking <span class="w">photos</span>, or <span class="w">screenshotting</span> more things than I'll ever look at again.</p>
-      <p>Whether you're building something or finding your way in design, I'm happy to help: <a href="mailto:christian@ottonello.co">christian@ottonello.co</a></p>
+      <p>When I'm not working, you'll find me <span class="w" data-set="running">running</span>, seeing my <span class="w" data-set="bands">favorite bands</span> live, taking <span class="w" data-set="photos">photos</span>, or <span class="w" data-set="screens">screenshotting</span> more things than I'll ever look at again.</p>
+      <p>Whether you're building something or finding your way in design, I'm happy to help: <a href="mailto:christian@ottonello.co" class="mail" data-mail="christian@ottonello.co">christian@ottonello.co</a></p>
       <ul class="links">
         <li><a href="https://twitter.com/ottonello">Twitter</a></li>
         <li><a href="https://www.linkedin.com/in/christianottonello">LinkedIn</a></li>
@@ -17,11 +23,16 @@ import Face from '../components/Face.astro';
     </div>
     <div class="face"><Face /></div>
   </main>
+  <div class="polaroid" id="polaroid" aria-hidden="true"><img alt="" /></div>
+  <script type="application/json" id="sets" set:html={JSON.stringify(sets)} />
 </Base>
 
 <script>
+  // Face follows the cursor
   const f = document.querySelector<HTMLElement>('.face');
-  if (f && matchMedia('(hover: hover)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const canHover = matchMedia('(hover: hover)').matches;
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (f && canHover && !reduced) {
     addEventListener('mousemove', (e) => {
       if (innerWidth <= 900) return;
       const r = f.getBoundingClientRect();
@@ -29,5 +40,63 @@ import Face from '../components/Face.astro';
       const dx = (e.clientX - cx) / innerWidth, dy = (e.clientY - cy) / innerHeight;
       f.style.transform = `rotate(${dx * 5}deg) translate(${dx * 10}px, ${dy * 8}px)`;
     }, { passive: true });
+  }
+
+  // Polaroids on the hobby words: position across the word picks the photo
+  const sets: Record<string, string[]> = JSON.parse(document.getElementById('sets')!.textContent!);
+  const pol = document.getElementById('polaroid') as HTMLElement;
+  const img = pol.querySelector('img') as HTMLImageElement;
+  Object.values(sets).flat().forEach((src) => { const i = new Image(); i.src = src; });
+
+  let current = '';
+  function show(word: HTMLElement, idx: number, x: number, y: number) {
+    const list = sets[word.dataset.set!];
+    const src = list[Math.max(0, Math.min(list.length - 1, idx))];
+    if (img.getAttribute('src') !== src) {
+      img.src = src;
+      pol.style.setProperty('--tilt', `${(idx % 2 ? 1 : -1) * (2 + (idx * 1.3) % 3)}deg`);
+    }
+    pol.style.left = `${x}px`;
+    pol.style.top = `${y}px`;
+    pol.classList.add('on');
+  }
+  function hide() { pol.classList.remove('on'); current = ''; }
+
+  document.querySelectorAll<HTMLElement>('.w').forEach((word) => {
+    const n = sets[word.dataset.set!].length;
+    if (canHover) {
+      word.addEventListener('mousemove', (e) => {
+        const rects = Array.from(word.getClientRects());
+        let li = rects.findIndex((r) => e.clientY >= r.top && e.clientY <= r.bottom);
+        if (li < 0) li = 0;
+        const r = rects[li];
+        const t = (li + Math.min(1, Math.max(0, (e.clientX - r.left) / r.width))) / rects.length;
+        show(word, Math.min(n - 1, Math.floor(t * n)), e.clientX, r.top);
+      });
+      word.addEventListener('mouseleave', hide);
+    } else {
+      let tap = 0;
+      word.addEventListener('click', (e) => {
+        e.preventDefault();
+        const r = word.getBoundingClientRect();
+        if (current !== word.dataset.set) { tap = 0; current = word.dataset.set!; } else { tap = (tap + 1) % n; }
+        show(word, tap, r.left + r.width / 2, r.top);
+      });
+      document.addEventListener('click', (e) => { if (!(e.target as HTMLElement).closest('.w')) hide(); });
+    }
+  });
+
+  // Copy email on click
+  const mail = document.querySelector<HTMLAnchorElement>('.mail');
+  if (mail && navigator.clipboard) {
+    mail.addEventListener('click', async (e) => {
+      e.preventDefault();
+      try {
+        await navigator.clipboard.writeText(mail.dataset.mail!);
+        const t = mail.textContent;
+        mail.textContent = 'Copied';
+        setTimeout(() => { mail.textContent = t; }, 1400);
+      } catch { location.href = mail.href; }
+    });
   }
 </script>
