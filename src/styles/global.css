@@ -12,7 +12,7 @@
   --muted: #6e6a62;
   --rule: #b8b2a6;
   --dots: #9f9a90;
-  --measure: 36rem;
+  --measure: 34rem;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -29,7 +29,7 @@
 
 html {
   font-family: "Instrument Sans", system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
-  font-size: clamp(17px, 1.05vw + 11px, 21px);
+  font-size: clamp(16px, 0.5vw + 11px, 18px);
   line-height: 1.7;
   color: var(--ink);
   background: var(--paper);
@@ -44,19 +44,20 @@ body {
 }
 
 .page {
-  max-width: 68rem;
+  max-width: 62rem;
   margin: 0 auto;
-  padding: 5rem 2rem 5rem;
+  padding: 4rem 2rem;
+  min-height: 100svh;
   display: grid;
-  grid-template-columns: minmax(0, var(--measure)) 1fr;
-  gap: 4rem;
-  align-items: start;
+  grid-template-columns: minmax(0, var(--measure)) auto;
+  gap: 5rem;
+  align-items: center;
+  justify-content: center;
 }
 
 .face {
-  width: min(100%, 360px);
+  width: min(28vw, 300px);
   justify-self: center;
-  margin-top: 0.4rem;
   color: var(--ink);
   transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
   transform-origin: 45% 60%;
@@ -65,8 +66,10 @@ body {
 
 p { margin: 0 0 1.4rem; }
 
+sup { font-size: 0.6em; line-height: 0; vertical-align: 0.55em; }
+
 p.lead {
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   line-height: 1.45;
   font-weight: 500;
   margin-bottom: 1.8rem;
@@ -99,7 +102,7 @@ ul.links {
 }
 
 @media (max-width: 900px) {
-  .page { grid-template-columns: 1fr; gap: 0; padding: 3rem 1.25rem 3rem; }
+  .page { grid-template-columns: 1fr; gap: 0; padding: 3rem 1.25rem 3rem; min-height: 0; align-items: start; }
   .face { width: 150px; justify-self: start; margin: 0 0 1.6rem -4px; transition: none; }
 }
 
